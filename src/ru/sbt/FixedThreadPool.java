@@ -15,13 +15,24 @@ public class FixedThreadPool implements ThreadPool {
 
     @Override
     public void start() {
-        Runnable task = tasks.poll();
-        task.run();
+        for (int i = 0; i < threadCount; i++) {
+            new Worker().start();
+        }
     }
 
     @Override
     public void execute(Runnable runnable) {
         tasks.add(runnable);
         //notify worker
+    }
+
+    public class Worker extends Thread {
+        @Override
+        public void run() {
+            while (true) {
+                Runnable poll = tasks.poll();
+                poll.run(); // handle exception
+            }
+        }
     }
 }
