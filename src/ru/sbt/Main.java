@@ -2,7 +2,8 @@ package ru.sbt;
 
 public class Main {
     public static void main(String[] args) {
-        FixedThreadPool pool = new FixedThreadPool(3);
+        ThreadPool pool = new FixedThreadPool(3);
+        pool.start();
 
         pool.execute(()-> System.out.println(1));
         pool.execute(()-> System.out.println(2));
